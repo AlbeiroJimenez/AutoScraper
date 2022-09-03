@@ -7,8 +7,12 @@ from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 from spyder import Spyder
 
-FACEBOOK = ['yourmail@groupm.com', 'yourpassword']
+FACEBOOK      = ['yourmail@groupm.com', 'yourpassword']
 NAMES_CLASSES = {'adClass':'', 'titleClass':''}
+RECORDS_SAVE  = 10
+DELAY_TIME    = 30
+
+
 class Crawler:
     def __init__(self):
         self.spyder     = Spyder()
@@ -45,11 +49,12 @@ class FacebookCrawler(Crawler):
         self.market    = 'Facebook Marketplace'
         self.database  = []
         
-    def makeCrawling_threaded(self, region=0):
-        thread = Thread(target=self.makeCrawling, args=(region,))
+    def makeCrawling_threaded(self, nameDatabase, region=0):
+        thread = Thread(target=self.makeCrawling, args=(nameDatabase, region,))
         thread.start()
         
-    def makeCrawling(self, region):
+    def makeCrawling(self, nameDatabase, region):
+        self.database  = []
         for region in self.urlMarket[region:region+1]:
             #self.spyder.setDriver(region)
             #links, linksError = self.spyder.getWebElement('XPATH', '//div[@class="sonix8o1"]')
@@ -142,6 +147,9 @@ class FacebookCrawler(Crawler):
                     print(item) 
                 except:
                     print('No agregado 2')
+                if cont%RECORDS_SAVE == 0 and cont>0:
+                    dataToSave = pd.DataFrame(self.database)
+                    dataToSave.to_excel(nameDatabase)
     
     def calcDate(self, days):
         try:
@@ -176,9 +184,7 @@ class FacebookCrawler(Crawler):
         elif 'año' in text:
             return '365'
         else:
-            return text
-
-            
+            return text    
     
     def makeScrollEnd(self):
         scroll   = True
