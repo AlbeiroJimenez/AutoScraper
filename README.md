@@ -16,4 +16,7 @@
            epicenterNumber: 0-Lima, 1-Trujillo, 2-South of Peru.
 #6. If you want to stop the process in the idle, run the command:
        facebook.stop=True
-#7. Enjoy crawling with AutoScraper! 
+#7. When the process finish run the following commands:
+       dataToSave = pd.DataFrame(facebook.database)
+       dataToSave.to_excel(NameDatabase.xlsx)
+#8. Enjoy crawling with AutoScraper! 
