@@ -10,7 +10,7 @@ from spyder import Spyder
 FACEBOOK      = ['yourmail@groupm.com', 'yourpassword']
 NAMES_CLASSES = {'adClass':'', 'titleClass':''}
 RECORDS_SAVE  = 10
-DELAY_TIME    = 30
+DELAY_TIME    = 15
 
 
 class Crawler:
@@ -143,7 +143,7 @@ class FacebookCrawler(Crawler):
                         'Texto Anuncio': description
                     }  
                     self.database.append(item) 
-                    time.sleep(30)
+                    time.sleep(DELAY_TIME)
                     print(item) 
                 except:
                     print('No agregado 2')
@@ -244,6 +244,17 @@ class KavakCrawler(Crawler):
                 if data['event'] == 'ProductImpression':
                     for ad in data['ecommerce']['impressions']:
                         self.ads.append(ad)
+    
+    def getBaseKavak(self):
+        for index in range(len(self.ads)):
+            color, mileage, transmission, year = self.ads[index]['variant'].split(',')
+            self.ads[index]['Color'] = color
+            self.ads[index]['Mileage'] = mileage
+            self.ads[index]['transmission'] = transmission
+            self.ads[index]['year'] = year   
+        database = pd.DataFrame(self.ads)
+        database.to_excel('MarketplaceKavak.xlsx')
 
 if __name__ == '__main__':
     facebook = FacebookCrawler()
+    kavak = KavakCrawler()

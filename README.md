@@ -20,3 +20,14 @@
        dataToSave = pd.DataFrame(facebook.database)
        dataToSave.to_excel(NameDatabase.xlsx)
 #8. Enjoy crawling with AutoScraper! 
+
+#Use Instructions Facebook Crawler
+
+#1. Run crawler.py module in a terminal or IDLE of your preference.
+#2. Run the crawling with the command:
+       facebook.makeCrawling()
+#3. Making the Kavak Database with the command:
+       kavak.getBaseKavak()
+#4. Enjoy crawling with AutoScraper!
+
+
