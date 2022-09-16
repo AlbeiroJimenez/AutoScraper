@@ -21,7 +21,7 @@
        dataToSave.to_excel(NameDatabase.xlsx)
 #8. Enjoy crawling with AutoScraper! 
 
-#Use Instructions Facebook Crawler
+#Use Instructions Kavak Crawler
 
 #1. Run crawler.py module in a terminal or IDLE of your preference.
 #2. Run the crawling with the command:
