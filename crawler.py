@@ -7,10 +7,12 @@ from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 from spyder import Spyder
 
-FACEBOOK      = ['yourmail@groupm.com', 'yourpassword']
-NAMES_CLASSES = {'adClass':'', 'titleClass':''}
+FACEBOOK      = ['albeiro.jimenez@groupm.com', 'Xaxis_2022*!']
+NAMES_CLASSES = {'adsURL':'x3ct3a4', 'titleAd':'x193iq5w xeuugli x13faqbe x1vvkbs x10flsy6 x1lliihq x1s928wv xhkezso x1gmr53x x1cpjm7i x1fgarty x1943h6x xudqn12 xw06pyt xngnso2 x1qb5hxa x1xlr1w8 xzsf02u', 
+                 'price':'x1xmf6yo', 'geoDate':'x1yztbdb', 'description':'x126k92a xkhd6sd xsag5q8 x4uap5 xz9dl7a'
+                }
 RECORDS_SAVE  = 10
-DELAY_TIME    = 15
+DELAY_TIME    = 30
 
 
 class Crawler:
@@ -58,7 +60,7 @@ class FacebookCrawler(Crawler):
         for region in self.urlMarket[region:region+1]:
             #self.spyder.setDriver(region)
             #links, linksError = self.spyder.getWebElement('XPATH', '//div[@class="sonix8o1"]')
-            links, linksError = self.spyder.getWebElement('XPATH', '//div[@class="a75w6hnp"]')
+            links, linksError = self.spyder.getWebElement('XPATH', '//div[@class="%s"]'%NAMES_CLASSES['adsURL'])
             print(len(links))
             for link in links:
                 try:
@@ -77,21 +79,18 @@ class FacebookCrawler(Crawler):
                     self.spyder.setDriver(urlAd)
                     image, imageError = self.spyder.getWebElement('XPATH', '//img[contains(@alt,"auto") or contains(@alt,"Auto") or contains(@alt,"carro")]', timeout_=10, max_iteractions=3)
                     if image == -1: continue
-                    #title, titleError = self.spyder.getWebElement('XPATH','//span[contains(@class, "d2edcug0 hpfvmrgz qv66sw1b c1et5uql b0tq1wua a8c37x1j fe6kdd0r mau55g9w c8b282yb keod5gw0 nxhoafnm aigsh9s9 d3f4x2em rwim8176 o0t2es00 f530mmz5 hnhda86s oo9gr5id")]')
-                    title, titleError = self.spyder.getWebElement('XPATH','//span[contains(@class, "gvxzyvdx aeinzg81 t7p7dqev gh25dzvf ocv3nf92 b6ax4al1 gem102v4 ncib64c9 mrvwc6qr sx8pxkcf f597kf1v cpcgwwas m2nijcs8 pc9ouhwb qntmu8s7 tq4zoyjo o48pnaf2 pbevjfx6")]')
+                    title, titleError = self.spyder.getWebElement('XPATH','//span[contains(@class, "%s")]'%NAMES_CLASSES['titleAd'])
                     if title == -1 or len(title)<2: continue
                     marca = title[1].get_attribute('textContent')
                     try:
                         year = re.findall(r'\d{4}|\d{2}', marca)[0]
                     except:
                         year = ''
-                    #rawPrice, error = self.spyder.getWebElement('XPATH','//div[@class="aov4n071"]')
-                    rawPrice, error = self.spyder.getWebElement('XPATH','//div[@class="th51lws0"]')
+                    rawPrice, error = self.spyder.getWebElement('XPATH','//div[@class="%s"]'%NAMES_CLASSES['price'])
                     if rawPrice == -1: continue
                     price = re.findall(r'-?\d+\.?\d*', rawPrice[0].get_attribute('textContent'))[0]
                     currency = rawPrice[0].get_attribute('textContent').replace(price,'')
-                    #geoDate, error = self.spyder.getWebElement('XPATH','//div[@class="sjgh65i0"]')
-                    geoDate, error = self.spyder.getWebElement('XPATH','//div[@class="p8bdhjjv"]')
+                    geoDate, error = self.spyder.getWebElement('XPATH','//div[@class="%s"]'%NAMES_CLASSES['geoDate'])
                     if geoDate == -1: continue
                     city, department = geoDate[1].find_element(By.TAG_NAME,'a').get_attribute('textContent').split(',')
                     date = geoDate[1].get_attribute('textContent').replace(geoDate[1].find_element(By.TAG_NAME,'a').get_attribute('textContent'),'').replace(' en ', '')
@@ -99,9 +98,8 @@ class FacebookCrawler(Crawler):
                     published = self.calcDate(days)
                     watchPlus, error = self.spyder.getWebElement('XPATH', '//span[contains(text(),"Ver más")]', timeout_=0)
                     if watchPlus != -1: watchPlus[0].click()
-                    #webElement, error = self.spyder.getWebElement('XPATH', '//div[contains(@class,"ii04i59q a8nywdso f10w8fjw rz4wbd8a pybr56ya")]')
                     #Description Element
-                    webElement, error = self.spyder.getWebElement('XPATH', '//div[contains(@class,"n3t5jt4f nch0832m rj2hsocd oxkhqvkx s1m0hq7j")]')
+                    webElement, error = self.spyder.getWebElement('XPATH', '//div[contains(@class,"%s")]'%NAMES_CLASSES['description'])
                     if webElement != -1:
                         description = webElement[0].get_attribute('textContent')
                     else:
@@ -150,6 +148,8 @@ class FacebookCrawler(Crawler):
                 if cont%RECORDS_SAVE == 0 and cont>0:
                     dataToSave = pd.DataFrame(self.database)
                     dataToSave.to_excel(nameDatabase)
+            dataToSave = pd.DataFrame(self.database)
+            dataToSave.to_excel(nameDatabase)
     
     def calcDate(self, days):
         try:
