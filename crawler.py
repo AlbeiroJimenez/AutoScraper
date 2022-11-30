@@ -77,8 +77,8 @@ class FacebookCrawler(Crawler):
                 try:
                     facebookId = urlparse(urlAd).path.split('/')[-2]
                     self.spyder.setDriver(urlAd)
-                    image, imageError = self.spyder.getWebElement('XPATH', '//img[contains(@alt,"auto") or contains(@alt,"Auto") or contains(@alt,"carro")]', timeout_=10, max_iteractions=3)
-                    if image == -1: continue
+                    #image, imageError = self.spyder.getWebElement('XPATH', '//img[contains(@alt,"auto") or contains(@alt,"Auto") or contains(@alt,"carro")]', timeout_=10, max_iteractions=3)
+                    #if image == -1: continue
                     title, titleError = self.spyder.getWebElement('XPATH','//span[contains(@class, "%s")]'%NAMES_CLASSES['titleAd'])
                     if title == -1 or len(title)<2: continue
                     marca = title[1].get_attribute('textContent')
