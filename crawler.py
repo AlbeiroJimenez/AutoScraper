@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 from spyder import Spyder
 
-FACEBOOK      = ['albeiro.jimenez@groupm.com', 'Xaxis_2022*!']
+FACEBOOK      = ['yourfacebookaccount', 'password']
 NAMES_CLASSES = {'adsURL':'x3ct3a4', 'titleAd':'x193iq5w xeuugli x13faqbe x1vvkbs x10flsy6 x1lliihq x1s928wv xhkezso x1gmr53x x1cpjm7i x1fgarty x1943h6x xudqn12 xw06pyt xngnso2 x1qb5hxa x1xlr1w8 xzsf02u', 
                  'price':'x1xmf6yo', 'geoDate':'x1yztbdb', 'description':'x126k92a xkhd6sd xsag5q8 x4uap5 xz9dl7a'
                 }
